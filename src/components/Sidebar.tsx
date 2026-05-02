@@ -20,15 +20,18 @@ const C = {
 }
 
 interface SidebarProps {
-  isOpen:    boolean
-  onClose:   () => void
-  onNewChat: () => void
-  language:  'en' | 'rw'
+  isOpen:                  boolean
+  onClose:                 () => void
+  onNewChat:               () => void
+  onOpenDashboard:         () => void
+  onOpenSubmissionReport:  () => void
+  language:                'en' | 'rw'
 }
 
 const labels = {
   en: {
     newChat:     'New Conversation',
+    dashboard:   'Professional Dashboard',
     about:       'About',
     aboutDesc:   'An AI companion for emotional support. Not a replacement for professional therapy.',
     privacy:     'Anonymous & Private',
@@ -37,6 +40,7 @@ const labels = {
   },
   rw: {
     newChat:     'Ikiganiro Gishya',
+    dashboard:   'Ubwiyunge bw\'Inzobere',
     about:       'Ibyerekeye',
     aboutDesc:   "Inshuti ya AI yo gufasha gutuza. Ntabwo isimbuye inzobere z'ubuzima bwo mu mutwe.",
     privacy:     'Yihishe & Yizewe',
@@ -46,11 +50,12 @@ const labels = {
 }
 
 // ── Shared panel content ───────────────────────────────────────────────────
-function SidebarContent({ onClose, onNewChat, language, showClose }: {
-  onClose:   () => void
-  onNewChat: () => void
-  language:  'en' | 'rw'
-  showClose: boolean
+function SidebarContent({ onClose, onNewChat, onOpenDashboard, language, showClose }: {
+  onClose:         () => void
+  onNewChat:       () => void
+  onOpenDashboard: () => void
+  language:        'en' | 'rw'
+  showClose:       boolean
 }) {
   const t = labels[language]
 
@@ -117,6 +122,26 @@ function SidebarContent({ onClose, onNewChat, language, showClose }: {
         </HStack>
       </Box>
 
+      {/* ── Professional Dashboard ── */}
+      <Box px={4} pb={4}>
+        <HStack
+          as="button" w="full" px={4} py={3}
+          borderRadius="xl"
+          border={`1.5px solid ${C.borderLime}`}
+          color={C.accent}
+          fontSize="sm" fontWeight="700"
+          gap={2.5} cursor="pointer" justify="center"
+          _hover={{ bg: C.accentSoft }}
+          onClick={() => {
+            onOpenDashboard()
+            onClose()
+          }}
+        >
+          <FiShield size={16} />
+          <Text>{t.dashboard}</Text>
+        </HStack>
+      </Box>
+
       <Separator borderColor={C.border} />
 
       {/* ── Info cards ── */}
@@ -161,7 +186,7 @@ function SidebarContent({ onClose, onNewChat, language, showClose }: {
 }
 
 // ── Main export ────────────────────────────────────────────────────────────
-export default function Sidebar({ isOpen, onClose, onNewChat, language }: SidebarProps) {
+export default function Sidebar({ isOpen, onClose, onNewChat, onOpenDashboard, language }: SidebarProps) {
   return (
     <>
       {/* ── Desktop: always visible, static ── */}
@@ -169,6 +194,7 @@ export default function Sidebar({ isOpen, onClose, onNewChat, language }: Sideba
         <SidebarContent
           onClose={onClose}
           onNewChat={onNewChat}
+          onOpenDashboard={onOpenDashboard}
           language={language}
           showClose={false}
         />
@@ -201,6 +227,7 @@ export default function Sidebar({ isOpen, onClose, onNewChat, language }: Sideba
               <SidebarContent
                 onClose={onClose}
                 onNewChat={onNewChat}
+                onOpenDashboard={onOpenDashboard}
                 language={language}
                 showClose={true}
               />

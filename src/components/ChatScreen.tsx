@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { Box, VStack, useToast } from '@chakra-ui/react'
+import { Box, VStack } from '@chakra-ui/react'
 import { AnimatePresence } from 'framer-motion'
 import type { Message, EmotionTag, CrisisSeverity } from '../types'
 import {
@@ -8,12 +8,13 @@ import {
   detectEmotionWithSeverity,
   detectLanguage,
   type ChatSession,
-} from '../services/gemini'
+} from '../service/groq'
 import ChatHeader from './ChatHeader'
 import ChatMessage from './ChatMessage'
 import TypingIndicator from './TypingIndicator'
 import ChatInput from './ChatInput'
 import CrisisAlert from './CrisisAlert'
+import { toaster } from './AppToaster'
 
 interface ChatScreenProps {
   language: 'en' | 'rw'
@@ -54,7 +55,6 @@ export default function ChatScreen({
   const [currentLang, setCurrentLang] = useState<'en' | 'rw' | 'mixed'>(language)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const initialSentRef = useRef(false)
-  const toast = useToast()
 
   // Initialize session + welcome message
   useEffect(() => {
@@ -128,26 +128,22 @@ export default function ChatScreen({
         const retryAfterMin  = Math.ceil(retryAfterSec / 60)
 
         if (isRateLimited) {
-          toast({
+          toaster.create({
             title: language === 'rw' ? 'Gerageza nyuma gato' : 'Too many requests — please wait',
             description: language === 'rw'
               ? `Serivisi irakorana cyane ubu. Gerageza nyuma y'iminota ${retryAfterMin}.`
               : `The AI is receiving too many requests right now. Please try again in about ${retryAfterMin} minute${retryAfterMin !== 1 ? 's' : ''}.`,
-            status: 'warning',
+            type: 'warning',
             duration: Math.min(retryAfterSec * 1000, 15000),
-            isClosable: true,
-            position: 'top',
           })
         } else {
-          toast({
+          toaster.create({
             title: isApiKeyError ? 'API Key Required' : 'Connection Error',
             description: isApiKeyError
               ? 'Please add your Gemini API key to the .env file (VITE_GEMINI_API_KEY).'
               : 'Could not reach the AI. Please check your connection.',
-            status: 'error',
+            type: 'error',
             duration: 5000,
-            isClosable: true,
-            position: 'top',
           })
         }
 
@@ -170,7 +166,7 @@ export default function ChatScreen({
         setIsLoading(false)
       }
     },
-    [chatSession, isLoading, language, toast]
+    [chatSession, isLoading, language]
   )
 
   // Send initial message once session is ready
