@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 import { useState } from "react";
 import { Box, HStack } from "@chakra-ui/react";
 import { AnimatePresence } from "framer-motion";
@@ -29,7 +27,7 @@ export default function App() {
 
   return (
     <HStack
-      space={0}
+      gap={0}
       h="100vh"
       w="100vw"
       bg="#ffffff"
@@ -69,4 +67,3 @@ export default function App() {
     </HStack>
   );
 }
->>>>>>> Stashed changes
