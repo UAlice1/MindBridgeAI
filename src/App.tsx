@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Box, HStack } from "@chakra-ui/react";
 import { AnimatePresence } from "framer-motion";
 import HomeScreen from "./components/HomeScreen";
+import Sidebar from "./components/Sidebar";
 
 type Screen = "home" | "chat";
 
@@ -27,7 +28,7 @@ export default function App() {
 
   return (
     <HStack
-      space={0}
+      gap={0}
       h="100vh"
       w="100vw"
       bg="#ffffff"

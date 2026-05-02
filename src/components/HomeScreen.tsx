@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { Box, VStack, HStack, Text, Textarea, SimpleGrid, Divider } from '@chakra-ui/react'
+import { Box, VStack, HStack, Text, Textarea, SimpleGrid } from '@chakra-ui/react'
 import { FiSend, FiMenu, FiShield, FiLock, FiHeart } from 'react-icons/fi'
 import { motion } from 'framer-motion'
-import BrainLogo from './BrainLogo'
+import  BrainLogo  from './BrainLogo.tsx'
 
 const MotionBox    = motion.create(Box)
 const MotionVStack = motion.create(VStack)
@@ -313,7 +313,7 @@ export default function HomeScreen({ language, onLanguageChange, onSend, onToggl
               ))}
             </HStack>
 
-            <Divider borderColor={C.border} />
+            <Box w="full" h="1px" bg={C.border} />
 
             {/* Tagline + copyright */}
             <VStack gap={1} textAlign="center">
