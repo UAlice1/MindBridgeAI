@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import {
   Box, VStack, HStack, Text, Badge, Button, Textarea,
-  SimpleGrid, IconButton, Divider,
+  SimpleGrid, IconButton,
 } from '@chakra-ui/react'
 import {
   FiArrowLeft, FiBell, FiAlertOctagon, FiClock, FiUser,
@@ -21,7 +21,7 @@ import {
   markAllRead,
   seedDemoData,
   type DashboardStats,
-} from '../services/caseManager'
+} from '../service/caseManager'
 import RiskBadge from './RiskBadge'
 
 const MotionBox = motion.create(Box)
@@ -264,7 +264,7 @@ function CaseCard({ c, language, isExpanded, onToggle, onStatusChange, onRespond
               exit={{ opacity: 0, height: 0 }}
               overflow="hidden"
             >
-              <Divider borderColor={C.border} />
+              <Box borderTop="1px solid" borderColor={C.border} />
               <VStack spacing={3} px={4} py={4} align="stretch">
 
                 {/* Risk score */}

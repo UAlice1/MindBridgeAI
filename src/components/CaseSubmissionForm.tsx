@@ -10,8 +10,8 @@ import {
 } from 'react-icons/fi'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { MediaAttachment, RiskAnalysis } from '../types'
-import { analyzeRisk } from '../services/riskDetection'
-import { submitCase } from '../services/caseManager'
+import { analyzeRisk } from '../service/riskDetection'
+import { submitCase } from '../service/caseManager'
 import RiskBadge from './RiskBadge'
 import VoiceInput from './VoiceInput'
 

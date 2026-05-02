@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import {
   Box, VStack, HStack, Text, Input, Button,
-  Modal, ModalOverlay, ModalContent, ModalBody,
+  Dialog,
 } from '@chakra-ui/react'
 import { FiLock, FiMail, FiX, FiLayout } from 'react-icons/fi'
 import { motion } from 'framer-motion'
@@ -97,16 +97,16 @@ export default function DashboardLogin({ isOpen, onClose, onSuccess, language }:
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} isCentered size="sm">
-      <ModalOverlay bg="rgba(0,0,0,0.5)" backdropFilter="blur(6px)" />
-      <ModalContent
+    <Dialog.Root open={isOpen} onOpenChange={(details) => !details.open && handleClose()}>
+      <Dialog.Backdrop bg="rgba(0,0,0,0.5)" backdropFilter="blur(6px)" />
+      <Dialog.Content
         borderRadius="2xl"
         border={`1.5px solid ${C.border}`}
         boxShadow="0 24px 64px rgba(0,0,0,0.18)"
         mx={4}
         overflow="hidden"
+        p={0}
       >
-        <ModalBody p={0}>
           <MotionBox
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -245,8 +245,7 @@ export default function DashboardLogin({ isOpen, onClose, onSuccess, language }:
 
             </VStack>
           </MotionBox>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+      </Dialog.Content>
+    </Dialog.Root>
   )
 }

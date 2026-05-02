@@ -1,11 +1,11 @@
-import { Box, VStack, HStack, Text, Badge, Button, Divider } from '@chakra-ui/react'
+import { Box, VStack, HStack, Text, Badge, Button } from '@chakra-ui/react'
 import {
   FiPhone, FiMapPin, FiClock, FiShield, FiExternalLink,
   FiCheckCircle, FiAlertOctagon,
 } from 'react-icons/fi'
 import { motion } from 'framer-motion'
 import type { NGO, RiskLevel } from '../types'
-import { getRiskColor } from '../services/riskDetection'
+import { getRiskColor } from '../service/riskDetection'
 
 const MotionBox = motion.create(Box)
 
@@ -298,7 +298,7 @@ export default function NGOReferralPanel({
 
         {others.length > 0 && (
           <>
-            <Divider borderColor={C.border} />
+            <Box borderTop="1px solid" borderColor={C.border} />
             <Text fontSize="10px" fontWeight="800" color={C.textMuted} letterSpacing="0.06em" textTransform="uppercase">
               {t.all}
             </Text>

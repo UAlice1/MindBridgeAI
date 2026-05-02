@@ -29,6 +29,7 @@ interface HomeScreenProps {
   onLanguageChange: (l: 'en' | 'rw') => void
   onSend:           (text: string) => void
   onToggleSidebar:  () => void
+  onOpenDashboard:  () => void
 }
 
 const content = {
@@ -76,7 +77,7 @@ const content = {
   },
 }
 
-export default function HomeScreen({ language, onLanguageChange, onSend, onToggleSidebar }: HomeScreenProps) {
+export default function HomeScreen({ language, onLanguageChange, onSend, onToggleSidebar, onOpenDashboard }: HomeScreenProps) {
   const [value, setValue] = useState('')
   const t = content[language]
 
@@ -130,7 +131,19 @@ export default function HomeScreen({ language, onLanguageChange, onSend, onToggl
           ))}
         </HStack>
 
-        <Box w="34px" />
+        <Box
+          as="button" w="34px" h="34px" borderRadius="lg"
+          display="flex" alignItems="center" justifyContent="center"
+          color={C.accent}
+          bg={C.accentSoft}
+          border={`1.5px solid ${C.borderLime}`}
+          _hover={{ bg: C.accentSoft, opacity: 0.8 }}
+          onClick={onOpenDashboard}
+          aria-label="Professional Dashboard"
+          title="Professional Dashboard"
+        >
+          <FiShield size={18} />
+        </Box>
       </HStack>
 
       {/* ── Scrollable center ── */}
