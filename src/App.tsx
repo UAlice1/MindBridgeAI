@@ -3,6 +3,7 @@ import { Box, HStack } from "@chakra-ui/react";
 import { AnimatePresence } from "framer-motion";
 import HomeScreen from "./components/HomeScreen";
 import Sidebar from "./components/Sidebar";
+import ChatScreen from "./components/ChatScreen";
 
 type Screen = "home" | "chat";
 

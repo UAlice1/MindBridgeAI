@@ -8,7 +8,7 @@ import {
   detectEmotionWithSeverity,
   detectLanguage,
   type ChatSession,
-} from '../services/gemini'
+} from '../service/groq'
 import ChatHeader from './ChatHeader'
 import ChatMessage from './ChatMessage'
 import TypingIndicator from './TypingIndicator'
