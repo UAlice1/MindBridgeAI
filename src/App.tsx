@@ -6,8 +6,9 @@ import HomeScreen from './components/HomeScreen'
 import ChatScreen from './components/ChatScreen'
 import ProfessionalDashboard from './components/ProfessionalDashboard'
 import DashboardLogin from './components/DashboardLogin'
+import SubmissionReport from './components/SubmissionReport'
 
-type Screen = 'home' | 'chat' | 'dashboard'
+type Screen = 'home' | 'chat' | 'dashboard' | 'submission-report'
 
 export default function App() {
   const [screen, setScreen]             = useState<Screen>('home')
@@ -46,16 +47,26 @@ export default function App() {
     setScreen('home')
   }
 
+  const handleOpenSubmissionReport = () => {
+    setSidebarOpen(false)
+    setScreen('submission-report')
+  }
+
+  const handleCloseSubmissionReport = () => {
+    setScreen('home')
+  }
+
   return (
     <HStack spacing={0} h="100vh" w="100vw" bg="#ffffff" overflow="hidden" align="stretch">
 
-      {/* Sidebar — hidden on dashboard screen */}
-      {screen !== 'dashboard' && (
+      {/* Sidebar — hidden on dashboard and submission report screens */}
+      {screen !== 'dashboard' && screen !== 'submission-report' && (
         <Sidebar
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
           onNewChat={handleNewChat}
           onOpenDashboard={handleOpenDashboard}
+          onOpenSubmissionReport={handleOpenSubmissionReport}
           language={language}
         />
       )}
@@ -71,6 +82,7 @@ export default function App() {
               onSend={handleStartChat}
               onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
               onOpenDashboard={handleOpenDashboard}
+              onOpenSubmissionReport={handleOpenSubmissionReport}
             />
           ) : screen === 'chat' ? (
             <ChatScreen
@@ -79,6 +91,12 @@ export default function App() {
               initialMessage={initialMessage}
               onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
               onNewChat={handleNewChat}
+            />
+          ) : screen === 'submission-report' ? (
+            <SubmissionReport
+              key="submission-report"
+              language={language}
+              onBack={handleCloseSubmissionReport}
             />
           ) : (
             <ProfessionalDashboard

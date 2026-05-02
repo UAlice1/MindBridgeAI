@@ -20,11 +20,12 @@ const C = {
 }
 
 interface SidebarProps {
-  isOpen:          boolean
-  onClose:         () => void
-  onNewChat:       () => void
-  onOpenDashboard: () => void
-  language:        'en' | 'rw'
+  isOpen:                  boolean
+  onClose:                 () => void
+  onNewChat:               () => void
+  onOpenDashboard:         () => void
+  onOpenSubmissionReport:  () => void
+  language:                'en' | 'rw'
 }
 
 const labels = {

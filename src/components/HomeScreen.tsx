@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Box, VStack, HStack, Text, Textarea, SimpleGrid } from '@chakra-ui/react'
-import { FiSend, FiMenu, FiShield, FiLock, FiHeart } from 'react-icons/fi'
+import { FiSend, FiMenu, FiShield, FiLock, FiHeart, FiFileText } from 'react-icons/fi'
 import { motion } from 'framer-motion'
 import  BrainLogo  from './BrainLogo.tsx'
 
@@ -25,11 +25,12 @@ const C = {
 }
 
 interface HomeScreenProps {
-  language:         'en' | 'rw'
-  onLanguageChange: (l: 'en' | 'rw') => void
-  onSend:           (text: string) => void
-  onToggleSidebar:  () => void
-  onOpenDashboard:  () => void
+  language:              'en' | 'rw'
+  onLanguageChange:      (l: 'en' | 'rw') => void
+  onSend:                (text: string) => void
+  onToggleSidebar:       () => void
+  onOpenDashboard:       () => void
+  onOpenSubmissionReport: () => void
 }
 
 const content = {
@@ -77,7 +78,7 @@ const content = {
   },
 }
 
-export default function HomeScreen({ language, onLanguageChange, onSend, onToggleSidebar, onOpenDashboard }: HomeScreenProps) {
+export default function HomeScreen({ language, onLanguageChange, onSend, onToggleSidebar, onOpenDashboard, onOpenSubmissionReport }: HomeScreenProps) {
   const [value, setValue] = useState('')
   const t = content[language]
 
@@ -130,6 +131,20 @@ export default function HomeScreen({ language, onLanguageChange, onSend, onToggl
             </Box>
           ))}
         </HStack>
+
+        <Box
+          as="button" w="34px" h="34px" borderRadius="lg"
+          display="flex" alignItems="center" justifyContent="center"
+          color={C.textMuted}
+          bg={C.card}
+          border={`1.5px solid ${C.border}`}
+          _hover={{ bg: C.card, borderColor: C.borderLime }}
+          onClick={onOpenSubmissionReport}
+          aria-label="Submission Report"
+          title="View your submission reports"
+        >
+          <FiFileText size={18} />
+        </Box>
 
         <Box
           as="button" w="34px" h="34px" borderRadius="lg"
