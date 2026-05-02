@@ -1,4 +1,4 @@
-import { Box, HStack, VStack, Text, IconButton, Tooltip } from '@chakra-ui/react'
+import { Box, HStack, VStack, Text, IconButton } from '@chakra-ui/react'
 import { FiMenu, FiTrash2, FiPlus } from 'react-icons/fi'
 import BrainLogo from './BrainLogo'
 
@@ -39,7 +39,7 @@ export default function ChatHeader({ onToggleSidebar, onClear, onNewChat, langua
       <HStack justify="space-between" align="center">
 
         {/* Left: menu + identity */}
-        <HStack spacing={3}>
+        <HStack gap={3}>
           <Box
             as="button" w="34px" h="34px" borderRadius="lg"
             display={{ base: 'flex', md: 'none' }} alignItems="center" justifyContent="center"
@@ -50,7 +50,7 @@ export default function ChatHeader({ onToggleSidebar, onClear, onNewChat, langua
             <FiMenu size={18} />
           </Box>
 
-          <HStack spacing={3}>
+          <HStack gap={3}>
             {/* Avatar */}
             <Box
               w="40px" h="40px" borderRadius="xl"
@@ -62,8 +62,8 @@ export default function ChatHeader({ onToggleSidebar, onClear, onNewChat, langua
               <BrainLogo size={22} />
             </Box>
 
-            <VStack spacing={0} align="flex-start">
-              <HStack spacing={2} align="center">
+            <VStack gap={0} align="flex-start">
+              <HStack gap={2} align="center">
                 {/* BIGGER title */}
                 <Text
                   fontWeight="900"
@@ -76,7 +76,7 @@ export default function ChatHeader({ onToggleSidebar, onClear, onNewChat, langua
                 </Text>
                 {/* Live badge */}
                 <HStack
-                  spacing={1} align="center"
+                  gap={1} align="center"
                   px={2} py={0.5}
                   border={`1.5px solid ${C.borderLime}`}
                   borderRadius="full"
@@ -100,7 +100,7 @@ export default function ChatHeader({ onToggleSidebar, onClear, onNewChat, langua
         </HStack>
 
         {/* Right: actions */}
-        <HStack spacing={1}>
+        <HStack gap={1}>
           {messageCount > 0 && (
             <Text
               fontSize="xs" color={C.textFaint} mr={2}
@@ -112,23 +112,31 @@ export default function ChatHeader({ onToggleSidebar, onClear, onNewChat, langua
             </Text>
           )}
 
-          <Tooltip label={newLabel} placement="bottom" hasArrow>
-            <IconButton
-              aria-label={newLabel} icon={<FiPlus size={16} />}
-              variant="ghost" color={C.textMuted} size="sm" borderRadius="lg"
-              _hover={{ bg: C.accentSoft, color: C.accent }}
-              onClick={onNewChat}
-            />
-          </Tooltip>
+          <IconButton
+            aria-label={newLabel}
+            title={newLabel}
+            variant="ghost"
+            color={C.textMuted}
+            size="sm"
+            borderRadius="lg"
+            _hover={{ bg: C.accentSoft, color: C.accent }}
+            onClick={onNewChat}
+          >
+            <FiPlus size={16} />
+          </IconButton>
 
-          <Tooltip label={clearLabel} placement="bottom" hasArrow>
-            <IconButton
-              aria-label={clearLabel} icon={<FiTrash2 size={15} />}
-              variant="ghost" color={C.textMuted} size="sm" borderRadius="lg"
-              _hover={{ bg: 'rgba(220,38,38,0.08)', color: '#dc2626' }}
-              onClick={onClear}
-            />
-          </Tooltip>
+          <IconButton
+            aria-label={clearLabel}
+            title={clearLabel}
+            variant="ghost"
+            color={C.textMuted}
+            size="sm"
+            borderRadius="lg"
+            _hover={{ bg: 'rgba(220,38,38,0.08)', color: '#dc2626' }}
+            onClick={onClear}
+          >
+            <FiTrash2 size={15} />
+          </IconButton>
         </HStack>
       </HStack>
     </Box>

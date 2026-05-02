@@ -1,7 +1,7 @@
 import { Box, HStack, VStack, Text, Badge } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import type { Message } from '../types'
-import { getEmotionColor, getEmotionLabel } from '../services/gemini'
+import { getEmotionColor, getEmotionLabel } from '../service/groq'
 import BrainLogo from './BrainLogo'
 
 const MotionBox = motion.create(Box)
@@ -37,7 +37,7 @@ export default function ChatMessage({ message, language }: ChatMessageProps) {
       transition={{ duration: 0.28 }} className="msg-enter"
     >
       <HStack
-        spacing={3} align="flex-start"
+        gap={3} align="flex-start"
         maxW={{ base: '90%', md: '75%', lg: '65%' }}
         flexDirection={isUser ? 'row-reverse' : 'row'}
       >
@@ -67,7 +67,7 @@ export default function ChatMessage({ message, language }: ChatMessageProps) {
         )}
 
         {/* Content */}
-        <VStack spacing={1.5} align={isUser ? 'flex-end' : 'flex-start'} flex={1} minW={0}>
+        <VStack gap={1.5} align={isUser ? 'flex-end' : 'flex-start'} flex={1} minW={0}>
           {/* Sender label with border */}
           <Box
             px={2} py={0.5}
@@ -106,7 +106,7 @@ export default function ChatMessage({ message, language }: ChatMessageProps) {
           </Box>
 
           {/* Meta */}
-          <HStack spacing={2} px={1}>
+          <HStack gap={2} px={1}>
             <Text fontSize="10px" color={C.timestamp}>
               {message.timestamp.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
             </Text>

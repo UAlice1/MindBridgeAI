@@ -26,7 +26,7 @@ export default function TypingIndicator({ language }: TypingIndicatorProps) {
       initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }} transition={{ duration: 0.2 }}
     >
-      <HStack spacing={3} align="flex-start">
+      <HStack gap={3} align="flex-start">
         <Box
           w="32px" h="32px" borderRadius="xl"
           bg={C.avatar} border={`1px solid ${C.avatarBdr}`}
@@ -36,7 +36,7 @@ export default function TypingIndicator({ language }: TypingIndicatorProps) {
           <BrainLogo size={17} />
         </Box>
 
-        <VStack spacing={1.5} align="flex-start">
+        <VStack gap={1.5} align="flex-start">
           <Text fontSize="xs" fontWeight="700" color={C.name} px={1} letterSpacing="0.01em">
             YourVoice AI
           </Text>
@@ -47,7 +47,7 @@ export default function TypingIndicator({ language }: TypingIndicatorProps) {
             px={4} py={3}
             boxShadow="0 1px 4px rgba(0,0,0,0.06)"
           >
-            <HStack spacing={1.5} align="center">
+            <HStack gap={1.5} align="center">
               {[0, 1, 2].map((i) => (
                 <Box
                   key={i} w="7px" h="7px" borderRadius="full"

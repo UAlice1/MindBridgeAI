@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Box, VStack, HStack, Text, Button, Collapse, useDisclosure, Link } from '@chakra-ui/react'
+import { Box, VStack, HStack, Text, Button, useDisclosure } from '@chakra-ui/react'
 import {
   FiAlertTriangle, FiPhone, FiChevronDown, FiWind,
   FiShield, FiHeart, FiExternalLink, FiAlertOctagon,
@@ -142,8 +142,8 @@ function BreathingGuide({ language, steps, repeat }: {
       border={`1.5px solid ${C.accentBorder}`}
       borderRadius="xl" p={4}
     >
-      <HStack spacing={2} mb={3} justify="space-between">
-        <HStack spacing={2}>
+      <HStack gap={2} mb={3} justify="space-between">
+        <HStack gap={2}>
           <Box color={C.accent}><FiWind size={14} /></Box>
           <Text fontSize="xs" fontWeight="700" color={C.accent} letterSpacing="0.02em">
             {steps[0].split('…')[0].trim().split(' ').slice(0, 3).join(' ')}
@@ -178,7 +178,7 @@ function BreathingGuide({ language, steps, repeat }: {
               {steps[step]}
             </Text>
             {/* Progress dots */}
-            <HStack justify="center" spacing={1.5} mt={2}>
+            <HStack justify="center" gap={1.5} mt={2}>
               {steps.map((_, i) => (
                 <Box
                   key={i}
@@ -197,7 +197,7 @@ function BreathingGuide({ language, steps, repeat }: {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <VStack spacing={1} align="stretch">
+            <VStack gap={1} align="stretch">
               {steps.map((s, i) => (
                 <Text key={i} fontSize="xs" color={C.textSub} lineHeight="1.65">
                   {i + 1}. {s}
@@ -228,7 +228,7 @@ export default function CrisisAlert({
   isAbuse = false,
   onRequestReport,
 }: CrisisAlertProps) {
-  const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: severity === 'high' || isAbuse })
+  const { open, onToggle } = useDisclosure({ defaultOpen: severity === 'high' || isAbuse })
   const t = content[language]
   const sc = severityConfig[severity]
   const Icon = sc.icon
@@ -262,7 +262,7 @@ export default function CrisisAlert({
           _hover={{ bg: `${sc.border}` }}
           transition="background 0.15s"
         >
-          <HStack spacing={3}>
+          <HStack gap={3}>
             <Box color={sc.iconColor} flexShrink={0}>
               <Icon size={16} />
             </Box>
@@ -270,13 +270,13 @@ export default function CrisisAlert({
               {title}
             </Text>
           </HStack>
-          <HStack spacing={2} flexShrink={0}>
+          <HStack gap={2} flexShrink={0}>
             <Text fontSize="xs" color={C.textMuted} display={{ base: 'none', sm: 'block' }}>
-              {isOpen ? t.hide : t.toggle}
+              {open ? t.hide : t.toggle}
             </Text>
             <Box
               color={C.textMuted}
-              transform={isOpen ? 'rotate(180deg)' : 'rotate(0)'}
+              transform={open ? 'rotate(180deg)' : 'rotate(0)'}
               transition="transform 0.2s"
             >
               <FiChevronDown size={14} />
@@ -285,8 +285,8 @@ export default function CrisisAlert({
         </HStack>
 
         {/* ── Expanded content ── */}
-        <Collapse in={isOpen} animateOpacity>
-          <VStack spacing={4} px={4} pb={5} pt={1} align="stretch">
+        {open && (
+          <VStack gap={4} px={4} pb={5} pt={1} align="stretch">
 
             {/* ── Abuse section ── */}
             {isAbuse && (
@@ -295,7 +295,7 @@ export default function CrisisAlert({
                 border={`1.5px solid ${C.redBorder}`}
                 borderRadius="xl" p={4}
               >
-                <HStack spacing={2} mb={2}>
+                <HStack gap={2} mb={2}>
                   <Box color={C.red}><FiShield size={14} /></Box>
                   <Text fontSize="xs" fontWeight="800" color={C.red} textTransform="uppercase" letterSpacing="0.04em">
                     {t.abuseTitle}
@@ -318,34 +318,36 @@ export default function CrisisAlert({
                 borderRadius="xl" p={4}
                 boxShadow="0 1px 4px rgba(0,0,0,0.06)"
               >
-                <HStack spacing={2} mb={1}>
+                <HStack gap={2} mb={1}>
                   <Box color={C.accent}><FiShield size={13} /></Box>
                   <Text fontSize="sm" fontWeight="700" color={C.text}>{t.isangeTitle}</Text>
                 </HStack>
                 <Text fontSize="xs" color={C.textMuted} mb={3} lineHeight="1.6">{t.isangeDesc}</Text>
-                <HStack spacing={2} flexWrap="wrap">
+                <HStack gap={2} flexWrap="wrap">
                   <Button
-                    as="a"
-                    href="tel:+250788386200"
                     size="xs"
                     bg={C.accent} color="#ffffff"
-                    leftIcon={<FiPhone size={11} />}
                     borderRadius="lg"
                     _hover={{ bg: C.accentHover }}
                     boxShadow="0 1px 4px rgba(101,163,13,0.3)"
+                    onClick={() => { window.location.href = 'tel:+250788386200' }}
                   >
-                    +250 788 386 200
+                    <HStack gap={1.5} align="center">
+                      <FiPhone size={11} />
+                      <Text>+250 788 386 200</Text>
+                    </HStack>
                   </Button>
                   <Button
-                    as="a"
-                    href="tel:3512"
                     size="xs"
                     variant="outline"
                     colorScheme="red"
-                    leftIcon={<FiPhone size={11} />}
                     borderRadius="lg"
+                    onClick={() => { window.location.href = 'tel:3512' }}
                   >
-                    {t.gbvLine}
+                    <HStack gap={1.5} align="center">
+                      <FiPhone size={11} />
+                      <Text>{t.gbvLine}</Text>
+                    </HStack>
                   </Button>
                 </HStack>
                 <Text fontSize="10px" color={C.textMuted} mt={2}>{t.gbvDesc}</Text>
@@ -360,7 +362,7 @@ export default function CrisisAlert({
             )}
 
             {/* ── Emergency resources ── */}
-            <VStack spacing={2.5} align="stretch">
+            <VStack gap={2.5} align="stretch">
               {t.resources.map((r, i) => (
                 <HStack
                   key={i}
@@ -370,22 +372,23 @@ export default function CrisisAlert({
                   justify="space-between"
                   boxShadow="0 1px 3px rgba(0,0,0,0.05)"
                 >
-                  <VStack spacing={0} align="flex-start">
+                  <VStack gap={0} align="flex-start">
                     <Text fontSize="sm" fontWeight="700" color={C.text}>{r.name}</Text>
                     <Text fontSize="xs" color={C.textMuted}>{r.desc}</Text>
                   </VStack>
                   <Button
-                    as="a"
-                    href={`tel:${r.number}`}
                     size="xs"
                     bg={C.accent} color="#ffffff"
-                    leftIcon={<FiPhone size={11} />}
                     borderRadius="lg"
                     _hover={{ bg: C.accentHover }}
                     boxShadow="0 1px 4px rgba(101,163,13,0.3)"
                     flexShrink={0}
+                    onClick={() => { window.location.href = `tel:${r.number}` }}
                   >
-                    {r.number}
+                    <HStack gap={1.5} align="center">
+                      <FiPhone size={11} />
+                      <Text>{r.number}</Text>
+                    </HStack>
                   </Button>
                 </HStack>
               ))}
@@ -405,7 +408,7 @@ export default function CrisisAlert({
                 border={`1.5px solid ${C.cardBorder}`}
                 borderRadius="xl" p={4}
               >
-                <HStack spacing={2} mb={1.5}>
+                <HStack gap={2} mb={1.5}>
                   <Box color={C.accent}><FiExternalLink size={13} /></Box>
                   <Text fontSize="xs" fontWeight="800" color={C.text} textTransform="uppercase" letterSpacing="0.04em">
                     {t.reportTitle}
@@ -429,7 +432,7 @@ export default function CrisisAlert({
             )}
 
           </VStack>
-        </Collapse>
+        )}
       </Box>
     </MotionBox>
   )
