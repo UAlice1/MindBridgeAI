@@ -113,7 +113,7 @@ export default function HomeScreen({ language, onLanguageChange, onSend, onToggl
         {/* Language pill */}
         <HStack
           bg={C.card} borderRadius="full" p="3px"
-          border={`1.5px solid ${C.border}`} spacing={0}
+          border={`1.5px solid ${C.border}`} gap={0}
         >
           {(['en', 'rw'] as const).map((lang) => (
             <Box
@@ -143,13 +143,13 @@ export default function HomeScreen({ language, onLanguageChange, onSend, onToggl
           px={4} py={8}
         >
           <MotionVStack
-            spacing={8} w="full" maxW="660px"
+            gap={8} w="full" maxW="660px"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45 }}
           >
             {/* ── Logo + Greeting ── */}
-            <VStack spacing={4} textAlign="center">
+            <VStack gap={4} textAlign="center">
               <MotionBox
                 w="76px" h="76px" borderRadius="2xl"
                 bg={C.accentSoft}
@@ -163,7 +163,7 @@ export default function HomeScreen({ language, onLanguageChange, onSend, onToggl
                 <BrainLogo size={38} />
               </MotionBox>
 
-              <VStack spacing={2}>
+              <VStack gap={2}>
                 {/* BIGGER main title */}
                 <Text
                   fontSize={{ base: '3xl', md: '3.2rem' }}
@@ -242,7 +242,7 @@ export default function HomeScreen({ language, onLanguageChange, onSend, onToggl
             {/* ── Chips ── */}
             <Box w="full">
               {/* Section label with border */}
-              <HStack mb={3} spacing={3} align="center">
+              <HStack mb={3} gap={3} align="center">
                 <Box flex={1} h="1px" bg={C.border} />
                 <Text
                   fontSize="11px" fontWeight="700"
@@ -259,7 +259,7 @@ export default function HomeScreen({ language, onLanguageChange, onSend, onToggl
                 <Box flex={1} h="1px" bg={C.border} />
               </HStack>
 
-              <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={2.5}>
+              <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} gap={2.5}>
                 {t.chips.map((label, i) => (
                   <MotionBox
                     key={i} as="button"
@@ -290,16 +290,16 @@ export default function HomeScreen({ language, onLanguageChange, onSend, onToggl
           bg={C.card}
           px={6} py={5}
         >
-          <VStack spacing={3} maxW="660px" mx="auto">
+          <VStack gap={3} maxW="660px" mx="auto">
             {/* Trust badges */}
-            <HStack spacing={4} justify="center" flexWrap="wrap">
+            <HStack gap={4} justify="center" flexWrap="wrap">
               {[
                 { icon: FiShield, label: t.footer.privacy },
                 { icon: FiLock,   label: t.footer.secure  },
                 { icon: FiHeart,  label: t.footer.free    },
               ].map(({ icon: Icon, label }) => (
                 <HStack
-                  key={label} spacing={1.5}
+                  key={label} gap={1.5}
                   px={3} py={1.5}
                   border={`1.5px solid ${C.border}`}
                   borderRadius="full"
@@ -316,7 +316,7 @@ export default function HomeScreen({ language, onLanguageChange, onSend, onToggl
             <Divider borderColor={C.border} />
 
             {/* Tagline + copyright */}
-            <VStack spacing={1} textAlign="center">
+            <VStack gap={1} textAlign="center">
               <Text fontSize="xs" color={C.textSub} fontWeight="500">
                 {t.footer.tagline}
               </Text>
