@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Box, VStack, HStack, Text, Textarea, SimpleGrid, Divider } from '@chakra-ui/react'
 import { FiSend, FiMenu, FiShield, FiLock, FiHeart } from 'react-icons/fi'
 import { motion } from 'framer-motion'
-
+import BrainLogo from './BrainLogo'
 
 const MotionBox    = motion.create(Box)
 const MotionVStack = motion.create(VStack)
