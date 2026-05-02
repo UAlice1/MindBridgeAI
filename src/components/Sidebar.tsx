@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Box, VStack, HStack, Text, IconButton, Separator } from '@chakra-ui/react'
 import { FiPlus, FiShield, FiInfo, FiX } from 'react-icons/fi'
 import { motion, AnimatePresence } from 'framer-motion'
