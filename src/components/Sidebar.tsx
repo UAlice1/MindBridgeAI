@@ -1,4 +1,4 @@
-import { Box, VStack, HStack, Text, IconButton, Divider } from '@chakra-ui/react'
+import { Box, VStack, HStack, Text, IconButton, Separator } from '@chakra-ui/react'
 import { FiPlus, FiShield, FiInfo, FiX } from 'react-icons/fi'
 import { motion, AnimatePresence } from 'framer-motion'
 import BrainLogo from './BrainLogo'
@@ -65,7 +65,7 @@ function SidebarContent({ onClose, onNewChat, language, showClose }: {
         px={5} py={5} justify="space-between" align="center"
         borderBottom={`1px solid ${C.border}`}
       >
-        <HStack spacing={3}>
+        <HStack gap={3}>
           <Box
             w="40px" h="40px" borderRadius="xl"
             bg={C.accentSoft}
@@ -75,7 +75,7 @@ function SidebarContent({ onClose, onNewChat, language, showClose }: {
           >
             <BrainLogo size={22} />
           </Box>
-          <VStack spacing={0} align="flex-start">
+          <VStack gap={0} align="flex-start">
             <Text fontWeight="800" fontSize="lg" color={C.accent} letterSpacing="-0.02em" lineHeight="1.1">
               YourVoice AI
             </Text>
@@ -89,12 +89,13 @@ function SidebarContent({ onClose, onNewChat, language, showClose }: {
         {showClose && (
           <IconButton
             aria-label="Close sidebar"
-            icon={<FiX size={16} />}
             size="sm" variant="ghost"
             color={C.textMuted} borderRadius="lg"
             _hover={{ bg: C.accentSoft, color: C.accent }}
             onClick={onClose}
-          />
+          >
+            <FiX size={16} />
+          </IconButton>
         )}
       </HStack>
 
@@ -105,7 +106,7 @@ function SidebarContent({ onClose, onNewChat, language, showClose }: {
           borderRadius="xl"
           bg={C.accent} color="#ffffff"
           fontSize="sm" fontWeight="700"
-          spacing={2.5} cursor="pointer" justify="center"
+          gap={2.5} cursor="pointer" justify="center"
           _hover={{ bg: C.accentHover }}
           onClick={onNewChat}
           boxShadow="0 2px 10px rgba(101,163,13,0.3)"
@@ -115,16 +116,16 @@ function SidebarContent({ onClose, onNewChat, language, showClose }: {
         </HStack>
       </Box>
 
-      <Divider borderColor={C.border} />
+      <Separator borderColor={C.border} />
 
       {/* ── Info cards ── */}
-      <VStack flex={1} spacing={3} px={4} py={5} align="stretch" overflowY="auto">
+      <VStack flex={1} gap={3} px={4} py={5} align="stretch" overflowY="auto">
         <Box
           bg={C.card} border={`1.5px solid ${C.border}`}
           borderRadius="xl" p={4}
           boxShadow="0 1px 4px rgba(0,0,0,0.06)"
         >
-          <HStack spacing={2} mb={2.5} pb={2} borderBottom={`1px solid ${C.border}`}>
+          <HStack gap={2} mb={2.5} pb={2} borderBottom={`1px solid ${C.border}`}>
             <Box color={C.accent}><FiInfo size={14} /></Box>
             <Text fontSize="xs" fontWeight="800" color={C.text} letterSpacing="0.02em" textTransform="uppercase">
               {t.about}
