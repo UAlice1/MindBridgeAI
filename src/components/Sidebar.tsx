@@ -26,6 +26,7 @@ interface SidebarProps {
   onOpenDashboard:         () => void
   onOpenSubmissionReport:  () => void
   language:                'en' | 'rw'
+  anonymousHash:           string
 }
 
 const labels = {
@@ -50,12 +51,13 @@ const labels = {
 }
 
 // ── Shared panel content ───────────────────────────────────────────────────
-function SidebarContent({ onClose, onNewChat, onOpenDashboard, language, showClose }: {
+function SidebarContent({ onClose, onNewChat, onOpenDashboard, language, showClose, anonymousHash }: {
   onClose:         () => void
   onNewChat:       () => void
   onOpenDashboard: () => void
   language:        'en' | 'rw'
   showClose:       boolean
+  anonymousHash:   string
 }) {
   const t = labels[language]
 
@@ -146,6 +148,34 @@ function SidebarContent({ onClose, onNewChat, onOpenDashboard, language, showClo
 
       {/* ── Info cards ── */}
       <VStack flex={1} gap={3} px={4} py={5} align="stretch" overflowY="auto">
+        {/* Anonymous ID Card */}
+        {anonymousHash && (
+          <Box
+            bg={C.accentSoft}
+            border={`1.5px solid ${C.borderLime}`}
+            borderRadius="xl" p={4}
+            boxShadow="0 1px 4px rgba(101,163,13,0.15)"
+          >
+            <HStack gap={2} mb={2} pb={2} borderBottom={`1px solid ${C.borderLime}`}>
+              <Box color={C.accent}><FiShield size={14} /></Box>
+              <Text fontSize="xs" fontWeight="800" color={C.accent} letterSpacing="0.02em" textTransform="uppercase">
+                {t.anonymousId}
+              </Text>
+            </HStack>
+            <Text
+              fontSize="xs"
+              fontWeight="700"
+              color={C.accent}
+              fontFamily="monospace"
+              letterSpacing="0.05em"
+              textAlign="center"
+              py={2}
+            >
+              {anonymousHash}
+            </Text>
+          </Box>
+        )}
+
         <Box
           bg={C.card} border={`1.5px solid ${C.border}`}
           borderRadius="xl" p={4}
@@ -186,7 +216,7 @@ function SidebarContent({ onClose, onNewChat, onOpenDashboard, language, showClo
 }
 
 // ── Main export ────────────────────────────────────────────────────────────
-export default function Sidebar({ isOpen, onClose, onNewChat, onOpenDashboard, language }: SidebarProps) {
+export default function Sidebar({ isOpen, onClose, onNewChat, onOpenDashboard, language, anonymousHash }: SidebarProps) {
   return (
     <>
       {/* ── Desktop: always visible, static ── */}
@@ -197,6 +227,7 @@ export default function Sidebar({ isOpen, onClose, onNewChat, onOpenDashboard, l
           onOpenDashboard={onOpenDashboard}
           language={language}
           showClose={false}
+          anonymousHash={anonymousHash}
         />
       </Box>
 
@@ -230,6 +261,7 @@ export default function Sidebar({ isOpen, onClose, onNewChat, onOpenDashboard, l
                 onOpenDashboard={onOpenDashboard}
                 language={language}
                 showClose={true}
+                anonymousHash={anonymousHash}
               />
             </MotionBox>
           </>

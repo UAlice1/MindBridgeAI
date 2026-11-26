@@ -1,0 +1,49 @@
+@import "tailwindcss" source(none);
+@import "@fontsource-variable/nunito";
+@source "./components";
+@source "./pages";
+
+@theme {
+  --font-sans: "Nunito Variable", system-ui, sans-serif;
+  --color-mist: #eef4f1;
+  --color-leaf: #d5e6dd;
+  --color-line: #c9d9d1;
+  --color-pine: #1c5044;
+  --color-pine-dark: #123a31;
+  --color-ink: #15302a;
+  --color-soft: #4b645c;
+  --color-sun: #f4bb4a;
+  --color-sun-soft: #fdf0d0;
+  --color-rose: #b3263a;
+  --color-rose-soft: #fbe7e9;
+}
+
+@layer base {
+  body { background: var(--color-mist); color: var(--color-ink); font-family: var(--font-sans); }
+  h1, h2, h3 { text-wrap: balance; }
+  button { cursor: pointer; }
+  button:disabled { cursor: not-allowed; opacity: .5; }
+  :focus-visible { outline: 3px solid var(--color-sun); outline-offset: 2px; }
+}
+
+@utility btn {
+  @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 py-2 font-bold transition-colors;
+}
+@utility btn-main { @apply btn bg-pine text-white hover:bg-pine-dark; }
+@utility btn-line { @apply btn border border-line bg-white text-pine hover:bg-leaf; }
+@utility btn-danger { @apply btn bg-rose text-white hover:opacity-90; }
+@utility card { @apply rounded-3xl border border-line bg-white p-5 sm:p-6; }
+@utility field { @apply w-full rounded-2xl border border-line bg-white px-4 py-3 text-ink; }
+@utility label { @apply mb-1.5 block font-bold; }
+@utility h1 { @apply text-3xl font-extrabold tracking-tight sm:text-4xl; }
+@utility h2 { @apply text-xl font-extrabold; }
+
+.blink { animation: blink 4.5s infinite; transform-box: fill-box; transform-origin: center; }
+.breathe { animation: breathe 5s ease-in-out infinite; }
+.pulse-ring { animation: ring 1.8s ease-out infinite; }
+@keyframes blink { 0%, 94%, 100% { transform: scaleY(1); } 97% { transform: scaleY(.08); } }
+@keyframes breathe { 50% { transform: translateY(-3px); } }
+@keyframes ring { from { box-shadow: 0 0 0 0 #f4bb4a99; } to { box-shadow: 0 0 0 22px #f4bb4a00; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

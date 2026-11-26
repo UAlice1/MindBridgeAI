@@ -1,14 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Box, HStack } from '@chakra-ui/react'
 import { AnimatePresence } from 'framer-motion'
 import Sidebar from './components/Sidebar'
 import HomeScreen from './components/HomeScreen'
 import ChatScreen from './components/ChatScreen'
+import AvatarChatScreen from './components/AvatarChatScreen'
 import ProfessionalDashboard from './components/ProfessionalDashboard'
 import DashboardLogin from './components/DashboardLogin'
 import SubmissionReport from './components/SubmissionReport'
+import { getOrCreateAnonymousUser } from './service/anonymousAuth'
 
-type Screen = 'home' | 'chat' | 'dashboard' | 'submission-report'
+type Screen = 'home' | 'chat' | 'avatar-chat' | 'dashboard' | 'submission-report'
+type ChatMode = 'text' | 'avatar'
 
 export default function App() {
   const [screen, setScreen]             = useState<Screen>('home')
@@ -17,10 +20,20 @@ export default function App() {
   const [sessionCount, setSessionCount] = useState(1)
   const [initialMessage, setInitialMessage] = useState<string | undefined>()
   const [showLogin, setShowLogin]       = useState(false)
+  const [chatMode, setChatMode]         = useState<ChatMode>('text')
+  const [anonymousHash, setAnonymousHash] = useState<string>('')
 
-  const handleStartChat = (text: string) => {
+  // Initialize anonymous user on mount
+  useEffect(() => {
+    const user = getOrCreateAnonymousUser()
+    setAnonymousHash(user.hash)
+    console.log('Anonymous User Hash:', user.hash)
+  }, [])
+
+  const handleStartChat = (text: string, mode: ChatMode = 'text') => {
     setInitialMessage(text)
-    setScreen('chat')
+    setChatMode(mode)
+    setScreen(mode === 'avatar' ? 'avatar-chat' : 'chat')
     setSidebarOpen(false)
   }
 
@@ -29,6 +42,7 @@ export default function App() {
     setInitialMessage(undefined)
     setScreen('home')
     setSidebarOpen(false)
+    setChatMode('text')
   }
 
   // Called when user clicks "Professional Dashboard" — show login first
@@ -68,6 +82,7 @@ export default function App() {
           onOpenDashboard={handleOpenDashboard}
           onOpenSubmissionReport={handleOpenSubmissionReport}
           language={language}
+          anonymousHash={anonymousHash}
         />
       )}
 
@@ -83,10 +98,19 @@ export default function App() {
               onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
               onOpenDashboard={handleOpenDashboard}
               onOpenSubmissionReport={handleOpenSubmissionReport}
+              anonymousHash={anonymousHash}
             />
           ) : screen === 'chat' ? (
             <ChatScreen
               key={`chat-${sessionCount}`}
+              language={language}
+              initialMessage={initialMessage}
+              onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+              onNewChat={handleNewChat}
+            />
+          ) : screen === 'avatar-chat' ? (
+            <AvatarChatScreen
+              key={`avatar-chat-${sessionCount}`}
               language={language}
               initialMessage={initialMessage}
               onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}

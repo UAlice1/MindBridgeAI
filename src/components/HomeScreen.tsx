@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Box, VStack, HStack, Text, Textarea, SimpleGrid } from '@chakra-ui/react'
-import { FiSend, FiMenu, FiShield, FiLock, FiHeart, FiFileText } from 'react-icons/fi'
+import { FiSend, FiMenu, FiShield, FiLock, FiHeart, FiFileText, FiMessageCircle, FiMic } from 'react-icons/fi'
 import { motion } from 'framer-motion'
 import  BrainLogo  from './BrainLogo.tsx'
 
@@ -24,13 +24,16 @@ const C = {
   placeholder: '#9ca3af',
 }
 
+type ChatMode = 'text' | 'avatar'
+
 interface HomeScreenProps {
   language:              'en' | 'rw'
   onLanguageChange:      (l: 'en' | 'rw') => void
-  onSend:                (text: string) => void
+  onSend:                (text: string, mode?: ChatMode) => void
   onToggleSidebar:       () => void
   onOpenDashboard:       () => void
   onOpenSubmissionReport: () => void
+  anonymousHash:         string
 }
 
 const content = {
@@ -39,6 +42,10 @@ const content = {
     sub:         'A safe, private space to share how you feel. No judgment. No login required.',
     placeholder: "Share what you're feeling right now...",
     hint:        'Enter to send · Shift+Enter for new line',
+    textMode:    'Text Chat',
+    avatarMode:  'Voice Therapist',
+    chooseMode:  'Choose your support method',
+    anonymousId: 'Your Anonymous ID',
     chips: [
       "I'm feeling overwhelmed",
       "I'm stressed and anxious",
@@ -60,6 +67,10 @@ const content = {
     sub:         'Ahantu hizewe ho gusangira uko wiyumva. Nta gucirwa urubanza. Nta konti ihitiyemo.',
     placeholder: 'Vuga uko wiyumva ubu...',
     hint:        'Enter kohereza · Shift+Enter urongo mushya',
+    textMode:    'Ikiganiro cy'inyandiko',
+    avatarMode:  'Umuvuzi w'ijwi',
+    chooseMode:  'Hitamo uburyo bwo gufashwa',
+    anonymousId: 'Nimero yawe yihishe',
     chips: [
       'Ndi na agahinda kenshi',
       "Ndi na stress n'ubwoba",
@@ -78,14 +89,15 @@ const content = {
   },
 }
 
-export default function HomeScreen({ language, onLanguageChange, onSend, onToggleSidebar, onOpenDashboard, onOpenSubmissionReport }: HomeScreenProps) {
+export default function HomeScreen({ language, onLanguageChange, onSend, onToggleSidebar, onOpenDashboard, onOpenSubmissionReport, anonymousHash }: HomeScreenProps) {
   const [value, setValue] = useState('')
+  const [selectedMode, setSelectedMode] = useState<ChatMode>('text')
   const t = content[language]
 
   const handleSend = () => {
     const trimmed = value.trim()
     if (!trimmed) return
-    onSend(trimmed)
+    onSend(trimmed, selectedMode)
     setValue('')
   }
 
@@ -214,6 +226,79 @@ export default function HomeScreen({ language, onLanguageChange, onSend, onToggl
 
             {/* ── Input ── */}
             <Box w="full">
+              {/* Mode selector */}
+              <VStack gap={3} mb={4}>
+                <HStack gap={3} align="center" w="full">
+                  <Box flex={1} h="1px" bg={C.border} />
+                  <Text
+                    fontSize="11px" fontWeight="700"
+                    color={C.textMuted}
+                    letterSpacing="0.08em"
+                    textTransform="uppercase"
+                    px={2}
+                  >
+                    {t.chooseMode}
+                  </Text>
+                  <Box flex={1} h="1px" bg={C.border} />
+                </HStack>
+
+                <HStack gap={3} w="full">
+                  {/* Text chat mode */}
+                  <Box
+                    as="button"
+                    flex={1}
+                    px={4} py={3}
+                    borderRadius="xl"
+                    bg={selectedMode === 'text' ? C.accentSoft : C.bg}
+                    border={selectedMode === 'text' ? `2px solid ${C.borderLime}` : `1.5px solid ${C.border}`}
+                    cursor="pointer"
+                    onClick={() => setSelectedMode('text')}
+                    transition="all 0.2s"
+                    _hover={{ borderColor: C.borderLime }}
+                  >
+                    <VStack gap={2}>
+                      <Box color={selectedMode === 'text' ? C.accent : C.textMuted}>
+                        <FiMessageCircle size={24} />
+                      </Box>
+                      <Text
+                        fontSize="sm"
+                        fontWeight="700"
+                        color={selectedMode === 'text' ? C.accent : C.text}
+                      >
+                        {t.textMode}
+                      </Text>
+                    </VStack>
+                  </Box>
+
+                  {/* Voice/avatar mode */}
+                  <Box
+                    as="button"
+                    flex={1}
+                    px={4} py={3}
+                    borderRadius="xl"
+                    bg={selectedMode === 'avatar' ? C.accentSoft : C.bg}
+                    border={selectedMode === 'avatar' ? `2px solid ${C.borderLime}` : `1.5px solid ${C.border}`}
+                    cursor="pointer"
+                    onClick={() => setSelectedMode('avatar')}
+                    transition="all 0.2s"
+                    _hover={{ borderColor: C.borderLime }}
+                  >
+                    <VStack gap={2}>
+                      <Box color={selectedMode === 'avatar' ? C.accent : C.textMuted}>
+                        <FiMic size={24} />
+                      </Box>
+                      <Text
+                        fontSize="sm"
+                        fontWeight="700"
+                        color={selectedMode === 'avatar' ? C.accent : C.text}
+                      >
+                        {t.avatarMode}
+                      </Text>
+                    </VStack>
+                  </Box>
+                </HStack>
+              </VStack>
+
               <Box
                 bg={C.bg}
                 border={`2px solid ${C.border}`}
@@ -302,13 +387,53 @@ export default function HomeScreen({ language, onLanguageChange, onSend, onToggl
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.05 * i + 0.25 }}
-                    onClick={() => onSend(label)}
+                    onClick={() => onSend(label, selectedMode)}
                   >
                     {label}
                   </MotionBox>
                 ))}
               </SimpleGrid>
             </Box>
+
+            {/* Anonymous ID badge */}
+            {anonymousHash && (
+              <MotionBox
+                w="full"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+              >
+                <Box
+                  px={4} py={3}
+                  bg={C.accentSoft}
+                  border={`1.5px solid ${C.borderLime}`}
+                  borderRadius="xl"
+                >
+                  <VStack gap={1} align="center">
+                    <Text fontSize="10px" fontWeight="700" color={C.textMuted} letterSpacing="0.08em" textTransform="uppercase">
+                      {t.anonymousId}
+                    </Text>
+                    <HStack gap={2}>
+                      <Box color={C.accent}><FiLock size={12} /></Box>
+                      <Text
+                        fontSize="sm"
+                        fontWeight="700"
+                        color={C.accent}
+                        fontFamily="monospace"
+                        letterSpacing="0.05em"
+                      >
+                        {anonymousHash}
+                      </Text>
+                    </HStack>
+                    <Text fontSize="10px" color={C.textMuted} textAlign="center" mt={1}>
+                      {language === 'rw'
+                        ? 'Bika iyi nimero niba ushaka gusubira ku biganiro byawe'
+                        : 'Save this ID to access your conversation history'}
+                    </Text>
+                  </VStack>
+                </Box>
+              </MotionBox>
+            )}
           </MotionVStack>
         </Box>
 
